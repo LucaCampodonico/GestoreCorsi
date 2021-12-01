@@ -5,7 +5,11 @@
 package it.polito.tdp.corsi;
 
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+
+import it.polito.tdp.corsi.model.Corso;
 import it.polito.tdp.corsi.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,10 +51,79 @@ public class FXMLController {
     @FXML
     void corsiPerPeriodo(ActionEvent event) {
     	
+    	this.txtRisultato.clear();
+    	
+    	if(this.txtPeriodo.getText().equals(null))
+    	{
+    		this.txtRisultato.setText("devi inserire un numero 1 o 2 per il periodo didattico ");
+    		return;
+    	}
+    	
+    	String period = this.txtPeriodo.getText();
+    	Integer periodo;
+    	
+    	try {
+    		periodo= Integer.parseInt(period);
+    	}catch(NumberFormatException ne)
+    	{
+    		this.txtRisultato.setText("devi inserire un numero 1 o 2 per il periodo didattico ");
+    		return;
+    	}catch(NullPointerException npe)
+    	{
+    		this.txtRisultato.setText("devi inserire un numero 1 o 2 per il periodo didattico ");
+    		return;
+    	}
+    	
+    	if (periodo>2 || periodo<1)
+    	{
+    		this.txtRisultato.setText("devi inserire un numero 1 o 2 per il periodo didattico ");
+    		return;
+    	}
+    	
+    	List<Corso> corsi = this.model.getcorsibyperiodo(periodo);
+    	for(Corso c :corsi)
+    	{
+    		this.txtRisultato.appendText(c.toString()+ "\n");
+    	}
+    	
+    	
     }
 
     @FXML
     void numeroStudenti(ActionEvent event) {
+    	
+    	if(this.txtPeriodo.getText().equals(null))
+    	{
+    		this.txtRisultato.setText("devi inserire un numero 1 o 2 per il periodo didattico ");
+    		return;
+    	}
+    	
+    	String period = this.txtPeriodo.getText();
+    	Integer periodo;
+    	
+    	try {
+    		periodo= Integer.parseInt(period);
+    	}catch(NumberFormatException ne)
+    	{
+    		this.txtRisultato.setText("devi inserire un numero 1 o 2 per il periodo didattico ");
+    		return;
+    	}catch(NullPointerException npe)
+    	{
+    		this.txtRisultato.setText("devi inserire un numero 1 o 2 per il periodo didattico ");
+    		return;
+    	}
+    	
+    	if (periodo>2 || periodo<1)
+    	{
+    		this.txtRisultato.setText("devi inserire un numero 1 o 2 per il periodo didattico ");
+    		return;
+    	}
+    	Map<Corso,Integer> corsi = this.model.getiscritti(periodo);
+    	for(Corso c :corsi.keySet())
+    	{
+    		int n=corsi.get(c);
+    		this.txtRisultato.appendText(c.toString()+n+"\n");
+    	}
     	
     }
 
